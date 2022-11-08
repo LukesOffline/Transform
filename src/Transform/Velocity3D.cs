@@ -16,7 +16,7 @@
 
         public Vector3 Scale { get; set; }
         
-        public float Rotation { get; set; }
+        public Vector3 Rotation { get; set; }
 
         public void Update(GameTime time)
         {

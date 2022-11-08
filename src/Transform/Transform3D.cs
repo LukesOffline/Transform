@@ -8,7 +8,7 @@
         public Transform3D()
         {
             this.Position = Vector3.Zero;
-            this.Rotation = 0;
+            this.Rotation = Vector3.Zero;
             this.Scale = Vector3.One;
         }
 
@@ -20,7 +20,7 @@
 
         private Matrix absolute, invertAbsolute, local;
 
-        private float localRotation, absoluteRotation;
+        private Vector3 localRotation, absoluteRotation;
 
         private Vector3 localScale, absoluteScale, localPosition, absolutePosition;
 
@@ -64,7 +64,7 @@
         /// Gets the absolute rotation.
         /// </summary>
         /// <value>The absolute rotation.</value>
-        public float AbsoluteRotation => this.UpdateAbsoluteAndGet(ref this.absoluteRotation);
+        public Vector3 AbsoluteRotation => this.UpdateAbsoluteAndGet(ref this.absoluteRotation);
 
         /// <summary>
         /// Gets the absolute scale.
@@ -82,7 +82,7 @@
         /// Gets or sets the rotation (relative to the parent, absolute if no parent).
         /// </summary>
         /// <value>The rotation.</value>
-        public float Rotation
+        public Vector3 Rotation
         {
             get => this.localRotation;
             set
@@ -194,7 +194,9 @@
         private void UpdateLocal()
         {
             var result = Matrix.CreateScale(this.Scale.X, this.Scale.Y, 1);
-            result *= Matrix.CreateRotationZ(this.Rotation);
+            result *= Matrix.CreateRotationX(this.Rotation.X);
+            result *= Matrix.CreateRotationY(this.Rotation.Y);
+            result *= Matrix.CreateRotationZ(this.Rotation.Z);
             result *= Matrix.CreateTranslation(this.Position.X, this.Position.Y, 0);
             this.local = result;
 
